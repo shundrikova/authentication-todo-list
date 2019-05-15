@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="../static/css/custom.css" th:href="@{/css/custom.css}">
+
+    <title>Log in with your account</title>
+</head>
+
+<body>
+
+<div class="container">
+    <form method="POST" th:action="@{/login}">
+        <h2 class="title-text">Log in</h2>
+
+        <div class="form-group">
+            <span class="message" th:utext="${message}"></span>
+            <input name="username" type="text" class="form-field" placeholder="Username"
+                   autofocus="true"/>
+            <input name="password" type="password" class="form-field" placeholder="Password"/>
+            <span class="message" th:utext="${error}"></span>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <button class="btn" type="submit">Log In</button>
+            <h4 class="reg-link"><a th:href="@{/registration}">Create an account</a></h4>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
