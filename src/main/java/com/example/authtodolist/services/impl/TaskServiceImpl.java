@@ -1,8 +1,10 @@
-package com.example.authtodolist.services;
+package com.example.authtodolist.services.impl;
 
+import com.example.authtodolist.dto.TaskData;
 import com.example.authtodolist.models.Task;
 import com.example.authtodolist.models.User;
 import com.example.authtodolist.repos.TaskRepository;
+import com.example.authtodolist.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +27,23 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void save(User user, Task task) {
-        task.setUser(user);
-        taskRepository.save(task);
+    public void update (long id, TaskData task) {
+        Task taskToUpdate =  taskRepository.findById(id);
+        taskToUpdate.setBody(task.getBody());
+        taskToUpdate.setColor(task.getColor());
+        taskToUpdate.setStatus(task.getStatus());
+        taskRepository.save(taskToUpdate);
+    }
+
+    @Override
+    public void create (TaskData task, User user) {
+        Task taskToCreate = new Task(task, user);
+        taskRepository.save(taskToCreate);
     }
 
     @Override
     public List<Task> findAll() {
         return taskRepository.findAll();
     }
+
 }

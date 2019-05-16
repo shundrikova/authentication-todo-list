@@ -13,8 +13,12 @@
 </head>
 
 <body>
-<h4><span th:utext="${#request.userPrincipal.name}"></span> TODO List |
-    <a href="javascript: document.logoutForm.submit()"> Logout</a></h4>
+<div class="header">
+    <h2 class="logo">TODO List</h2>
+    <div class="header-right">
+        <a href="javascript: document.logoutForm.submit()"> Logout</a>
+    </div>
+</div>
 <form name="logoutForm" th:action="@{/logout}" method="post">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 </form>

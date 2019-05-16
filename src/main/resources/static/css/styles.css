@@ -1,5 +1,9 @@
+* {box-sizing: border-box;}
+
 body {
     background-color: #F2F2F2;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container {
@@ -74,7 +78,6 @@ body {
     font-size: 17px;
     padding-top: 15px;
     padding-bottom: 15px;
-    padding-left: 7px;
     padding-right: 7px;
     margin-top: 3px;
     color: #fff;
@@ -189,4 +192,66 @@ a {
 
 .logout {
     margin: 20px;
+}
+
+input[type='checkbox'].task-cb ~ .check-toggle {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+input[type='checkbox'].task-cb:hover ~ .check-toggle {
+    border-color: #57a4db;
+}
+
+/* Styles for the focus state of the custom checkbox */
+input[type='checkbox'].task-cb:focus ~ .check-toggle {
+    border-color: #b0d5ff;
+    box-shadow: 0 0 0 2px rgba(23, 133, 255, 0.25);
+}
+
+/* Styles for the checked state of the custom checkbox */
+input[type='checkbox'].task-cb:checked ~ .check-toggle {
+    border-color: #57a4db;
+    background: #57a4db url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSIyMCA2IDkgMTcgNCAxMiI+PC9wb2x5bGluZT48L3N2Zz4=) center no-repeat;
+    background-size: 75%;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background-color: #707070;
+    padding-left: 40px;
+}
+
+.logo {
+    color: white;
+    font-size: 21px;
+}
+
+.header a {
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.header-right {
+    margin-left: auto;
+    padding-right: 40px;
+}
+
+.header a:hover {
+    background-color: #505050;
+    color: white;
 }

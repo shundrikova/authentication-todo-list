@@ -1,24 +1,41 @@
 package com.example.authtodolist.models;
 
 
+import com.example.authtodolist.dto.TaskData;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "task", schema = "public")
 public class Task {
+
+    public Task() {
+        super();
+    }
+
+    public Task(TaskData tsk, User usr) {
+        this.body = tsk.getBody();
+        this.color = tsk.getColor();
+        this.status = tsk.getStatus();
+        this.user = usr;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
+    @NotNull
     @Column(name = "body")
     private String body;
 
+    @NotNull
     @Column(name = "color")
     private String color;
 
+    @NotNull
     @Column(name = "status")
     private String status;
 

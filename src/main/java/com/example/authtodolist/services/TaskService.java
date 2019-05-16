@@ -1,5 +1,6 @@
 package com.example.authtodolist.services;
 
+import com.example.authtodolist.dto.TaskData;
 import com.example.authtodolist.models.Task;
 import com.example.authtodolist.models.User;
 
@@ -10,7 +11,9 @@ public interface TaskService {
 
     List<Task> findAllByUser(User user);
 
-    void save(User user, Task task);
+    void update(long id, TaskData task);
+
+    void create(TaskData data, User user);
 
     List<Task> findAll();
 }

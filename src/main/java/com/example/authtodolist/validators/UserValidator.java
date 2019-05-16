@@ -1,4 +1,4 @@
-package com.example.authtodolist;
+package com.example.authtodolist.validators;
 
 import com.example.authtodolist.models.User;
 import com.example.authtodolist.services.UserService;

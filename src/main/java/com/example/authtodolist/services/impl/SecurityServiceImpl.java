@@ -1,5 +1,6 @@
-package com.example.authtodolist.services;
+package com.example.authtodolist.services.impl;
 
+import com.example.authtodolist.services.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

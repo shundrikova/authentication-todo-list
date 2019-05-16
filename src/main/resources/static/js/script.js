@@ -1,24 +1,38 @@
 const doneColor = '#a0a0a0';
 let filterState = 'all';
 let state = {
-    size: 0,
-    tasks: []
+    tasks: [],
 };
-let color;
+let color = '#ff7583';
 
-function sendData(task) {
+let token = $('meta[name=\'_csrf\']').attr('content');
+let header = $('meta[name=\'_csrf_header\']').attr('content');
 
-    let token = $("meta[name='_csrf']").attr("content");
-    let header = $("meta[name='_csrf_header']").attr("content");
-
+function addTask(task) {
     $.ajax({
-        url: "/todolist.json",
+        url: '/todolist.json',
         beforeSend: function (xhr) {
             xhr.setRequestHeader(header, token);
         },
         dataType: 'json',
-        contentType: "application/json",
+        contentType: 'application/json',
         type: 'POST',
+        data: JSON.stringify(task),
+        success: function (data, textStatus) {
+            console.log(data);
+        },
+    });
+}
+
+function updateTask(task) {
+    $.ajax({
+        url: `/todolist.json/${task.id}`,
+        beforeSend: (xhr) => {
+            xhr.setRequestHeader(header, token);
+        },
+        dataType: 'json',
+        contentType: 'application/json',
+        type: 'PATCH',
         data: JSON.stringify(task),
         success: function (data, textStatus) {
             console.log(data);
@@ -29,15 +43,11 @@ function sendData(task) {
 $(document).ready(function () {
 
     $.ajax({
-        url: "/todolist.json"
-    }).then(function (data) {
+        url: '/todolist.json',
+    }).then((data) => {
         state = data;
-        if (state.tasks.length === 0) {
-            return;
-        } else {
-            addTasks();
-        }
-
+        if (state.tasks.length === 0) return;
+        addTasks();
     });
 
     function addTasks() {
@@ -47,7 +57,9 @@ $(document).ready(function () {
             let listElem = $('.task:last');
 
             let checked = (task.status == 'true') ? 'checked' : '';
-            $(`<input type='checkbox' class='task-cb' id=${task.id} ${checked}>`).hide().appendTo(listElem).show('slow');
+            $(`<input type='checkbox' class='task-cb' id=${task.id} ${checked}>`).hide().appendTo(listElem);
+
+            $(`<div class="check-toggle"></div>`).appendTo(listElem);
 
             $(`<span>${task.body}</span>`).appendTo(listElem);
 
@@ -79,15 +91,16 @@ $(document).ready(function () {
         $('#new-task').val('');
 
         let container = $('.task-list');
-        let inputs = container.find('label');
-        let id = state.size += 1;
+        let id = state.tasks.length + 1;
 
         // Add task to html
         $(`<label for=${id} class='task' color='${color}' </label>`).appendTo(container);
 
         let listElem = $('.task:last');
 
-        $(`<input type='checkbox' class='task-cb' id=${id}>`).hide().appendTo(listElem).show('slow');
+        $(`<input type='checkbox' class='task-cb' id=${id}>`).hide().appendTo(listElem);
+
+        $(`<div class="check-toggle"></div>`).appendTo(listElem);
 
         $(`<span>${task}</span>`).appendTo(listElem);
 
@@ -103,19 +116,19 @@ $(document).ready(function () {
 
         // Add task to state structure
         let newTask = {
-            id: id,
             body: task,
             color: color,
-            status: false
-        }
+            status: false,
+            id: id,
+        };
 
         state.tasks.push(newTask);
 
-        sendData(newTask);
+        addTask(newTask);
     });
 
     $('.filter').on('change', function () {
-        let filterVal = $(this).val()
+        let filterVal = $(this).val();
         filterState = filterVal;
 
         switch (filterVal) {
@@ -139,7 +152,7 @@ $(document).ready(function () {
 });
 
 $(document).on('change', 'input:checkbox', function () {
-    let id = $(this).attr('id')
+    let id = $(this).attr('id');
     let listElem = $(`label[for='${id}']`);
     let taskColor = listElem.attr('color');
     let doneStatus = false;
@@ -162,10 +175,10 @@ $(document).on('change', 'input:checkbox', function () {
     listElem.css('background-color', taskColor);
 
     // Update task done status
-    let task = state.tasks.find(x => x.id == $(this).attr('id'));
+    let task = state.tasks.find(x => x.id == id);
     task.status = doneStatus;
 
-    sendData(task);
+    updateTask(task);
 });
 
 // Edit
@@ -174,6 +187,7 @@ $(document).on('click', '.edit-btn', function () {
     $('#edit-box').val(taskDesc);
     $('.popup-overlay').attr('label-id', $(this).parent().attr('for'));
     $('.popup-overlay, .popup-content').addClass('active');
+
 });
 
 //Cancel
@@ -193,7 +207,7 @@ $(document).on('click', '#save-btn', function () {
 
     task.body = newDesc;
 
-    sendData(task);
+    updateTask(task);
 
     $('.popup-overlay, .popup-content').removeClass('active');
 });

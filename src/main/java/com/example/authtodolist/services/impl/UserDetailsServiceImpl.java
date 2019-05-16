@@ -1,4 +1,4 @@
-package com.example.authtodolist.services;
+package com.example.authtodolist.services.impl;
 
 import com.example.authtodolist.models.User;
 import com.example.authtodolist.repos.UserRepository;

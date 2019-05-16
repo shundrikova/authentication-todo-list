@@ -1,7 +1,8 @@
-package com.example.authtodolist.services;
+package com.example.authtodolist.services.impl;
 
 import com.example.authtodolist.models.User;
 import com.example.authtodolist.repos.UserRepository;
+import com.example.authtodolist.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
