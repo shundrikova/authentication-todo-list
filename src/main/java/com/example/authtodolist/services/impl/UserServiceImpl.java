@@ -9,23 +9,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Override
-    public void save(User userForm) {
-        User user = new User();
-        user.setUsername(userForm.getUsername());
-        user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
-        userRepository.save(user);
-    }
+  @Override
+  public void save(User userForm) {
+    User user = new User();
+    user.setUsername(userForm.getUsername());
+    user.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
+    userRepository.save(user);
+  }
 
-    @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
+  @Override
+  public User findByUsername(String username) {
+    return userRepository.findByUsername(username);
+  }
 }

@@ -13,47 +13,47 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Qualifier("userDetailsServiceImpl")
-    @Autowired
-    private UserDetailsService userDetailsService;
+  @Qualifier("userDetailsServiceImpl")
+  @Autowired
+  private UserDetailsService userDetailsService;
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                //.csrf().disable()
-                .authorizeRequests()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .antMatchers("/resources/**", "/registration").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/todolist")
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+        // .csrf().disable()
+        .authorizeRequests()
+        .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+        .permitAll()
+        .antMatchers("/resources/**", "/registration")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .formLogin()
+        .loginPage("/login")
+        .defaultSuccessUrl("/todolist")
+        .permitAll()
+        .and()
+        .logout()
+        .permitAll();
+  }
 
+  @Bean
+  public AuthenticationManager customAuthenticationManager() throws Exception {
+    return authenticationManager();
+  }
 
-    }
-
-    @Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
+  @Autowired
+  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+  }
 }

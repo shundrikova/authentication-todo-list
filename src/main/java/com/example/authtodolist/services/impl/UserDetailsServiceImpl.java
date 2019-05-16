@@ -16,17 +16,18 @@ import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) throw new UsernameNotFoundException(username);
+  @Override
+  @Transactional(readOnly = true)
+  public UserDetails loadUserByUsername(String username) {
+    User user = userRepository.findByUsername(username);
+    if (user == null) throw new UsernameNotFoundException(username);
 
-        final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("User"));
+    final List<GrantedAuthority> authorities =
+        Collections.singletonList(new SimpleGrantedAuthority("User"));
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
-    }
+    return new org.springframework.security.core.userdetails.User(
+        user.getUsername(), user.getPassword(), authorities);
+  }
 }

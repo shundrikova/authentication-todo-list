@@ -13,37 +13,35 @@ import java.util.List;
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskRepository taskRepository;
+  @Autowired private TaskRepository taskRepository;
 
-    @Override
-    public Task findById(long id) {
-        return taskRepository.findById(id);
-    }
+  @Override
+  public Task findById(long id) {
+    return taskRepository.findById(id);
+  }
 
-    @Override
-    public List<Task> findAllByUser(User user) {
-        return user.getTasks();
-    }
+  @Override
+  public List<Task> findAllByUser(User user) {
+    return user.getTasks();
+  }
 
-    @Override
-    public void update (long id, TaskData task) {
-        Task taskToUpdate =  taskRepository.findById(id);
-        taskToUpdate.setBody(task.getBody());
-        taskToUpdate.setColor(task.getColor());
-        taskToUpdate.setStatus(task.getStatus());
-        taskRepository.save(taskToUpdate);
-    }
+  @Override
+  public void update(long id, TaskData task) {
+    Task taskToUpdate = taskRepository.findById(id);
+    taskToUpdate.setBody(task.getBody());
+    taskToUpdate.setColor(task.getColor());
+    taskToUpdate.setStatus(task.getStatus());
+    taskRepository.save(taskToUpdate);
+  }
 
-    @Override
-    public void create (TaskData task, User user) {
-        Task taskToCreate = new Task(task, user);
-        taskRepository.save(taskToCreate);
-    }
+  @Override
+  public void create(TaskData task, User user) {
+    Task taskToCreate = new Task(task, user);
+    taskRepository.save(taskToCreate);
+  }
 
-    @Override
-    public List<Task> findAll() {
-        return taskRepository.findAll();
-    }
-
+  @Override
+  public List<Task> findAll() {
+    return taskRepository.findAll();
+  }
 }

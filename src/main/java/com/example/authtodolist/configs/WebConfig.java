@@ -9,12 +9,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Bean
-    public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        // Load file: validation.properties
-        messageSource.setBasename("classpath:validation");
-        messageSource.setDefaultEncoding("UTF-8");
-        return messageSource;
-    }
+  @Bean
+  public MessageSource messageSource() {
+    ReloadableResourceBundleMessageSource messageSource =
+        new ReloadableResourceBundleMessageSource();
+    // Load file: validation.properties
+    messageSource.setBasename("classpath:validation");
+    messageSource.setDefaultEncoding("UTF-8");
+    return messageSource;
+  }
 }

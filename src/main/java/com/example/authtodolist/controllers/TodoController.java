@@ -15,50 +15,49 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TodoController {
-    @Autowired
-    private UserService userService;
+  @Autowired private UserService userService;
 
-    @Autowired
-    private TaskService taskService;
+  @Autowired private TaskService taskService;
 
-    @RequestMapping(value = "/todolist.json", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public TodoData getTodoList() {
+  @RequestMapping(
+      value = "/todolist.json",
+      method = RequestMethod.GET,
+      produces = "application/json")
+  @ResponseBody
+  public TodoData getTodoList() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentPrincipalName = authentication.getName();
 
-        User user = userService.findByUsername(currentPrincipalName);
+    User user = userService.findByUsername(currentPrincipalName);
 
-        TodoData result = new TodoData();
+    TodoData result = new TodoData();
 
-        result.setTasks(taskService.findAllByUser(user));
+    result.setTasks(taskService.findAllByUser(user));
 
-        return result;
-    }
+    return result;
+  }
 
-    @RequestMapping(value = "/todolist.json", method = RequestMethod.POST)
-    @ResponseBody
-    public TaskData addTask(@RequestBody TaskData td) {
+  @RequestMapping(value = "/todolist.json", method = RequestMethod.POST)
+  @ResponseBody
+  public TaskData addTask(@RequestBody TaskData td) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String currentPrincipalName = authentication.getName();
 
-        User user = userService.findByUsername(currentPrincipalName);
+    User user = userService.findByUsername(currentPrincipalName);
 
-        taskService.create(td, user);
+    taskService.create(td, user);
 
-        return td;
-    }
+    return td;
+  }
 
-    @RequestMapping(value = "/todolist.json/{id}", method = RequestMethod.PATCH)
-    @ResponseBody
-    public ResponseEntity<String> updateTask(
-            @PathVariable("id") long id,
-            @RequestBody TaskData td) {
+  @RequestMapping(value = "/todolist.json/{id}", method = RequestMethod.PATCH)
+  @ResponseBody
+  public ResponseEntity<String> updateTask(@PathVariable("id") long id, @RequestBody TaskData td) {
 
-        taskService.update(id, td);
+    taskService.update(id, td);
 
-        return new ResponseEntity<>("Task was updated", HttpStatus.OK);
-    }
+    return new ResponseEntity<>("Task was updated", HttpStatus.OK);
+  }
 }
